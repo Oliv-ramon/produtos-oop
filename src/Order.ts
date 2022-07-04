@@ -1,13 +1,13 @@
-import Item from "./Item";
+import TaxItem from "./TaxItem";
 
 export default class Order {
-  items: Item[];
+  items: TaxItem[];
 
   constructor() {
     this.items = [];
   }
 
-  addItem(item: Item) {
+  addItem(item: TaxItem) {
     this.items.push(item);
   }
 
@@ -26,10 +26,9 @@ export default class Order {
 
     let taxes = 0;
 
-    this.items.forEach(({ price, category }) => {
-      const taxRate = categorieToTaxRate[category];
-
-      taxes += taxRate * price;
+    this.items.forEach((item) => {
+      const taxRate = categorieToTaxRate[item.category];
+      taxes += item.calculateTax(taxRate);
     });
 
     return taxes;
